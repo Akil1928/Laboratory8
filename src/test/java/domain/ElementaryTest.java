@@ -16,10 +16,12 @@ class ElementaryTest {
                 elementarySorting("selectionSort", util.Utility.getIntegerArray(10000), 150));
         System.out.println(
                 elementarySorting("countingSort", util.Utility.getIntegerArray(10000), 200));
+
     }
-    private String elementarySorting(String algorithm, int[] a, int n){
-       int[] originalArray = util.Utility.copyArray(a);
-        switch (algorithm){
+
+    private String elementarySorting(String algorithm, int[] a, int n) {
+        int[] originalArray = util.Utility.copyArray(a); // Hacer copia antes de ordenar
+        switch (algorithm) {
             case "bubbleSort":
                 Elementary.bubbleSort(a);
                 break;
@@ -32,11 +34,14 @@ class ElementaryTest {
             case "countingSort":
                 Elementary.countingSort(a);
                 break;
-            default: return "Not valid algoritm. Try again!!";
-
+            default:
+                return "Not valid algorithm. Try again!!";
         }
-        String result="";
-        result+="\n"+algorithm+" -Test"+"\nAlgorithm: "+ algorithm+"\nOriginal Array: "+util.Utility.show(a)+"\nSord Array: "+util.Utility.show(a);
-        return  result;
+        String result = "";
+        result += "\n" + algorithm + " -Test"
+                + "\nAlgorithm: " + algorithm
+                + "\nOriginal Array: " + util.Utility.show(originalArray) // Mostrar arreglo original
+                + "\nSord Array: " + util.Utility.show(a);               // Mostrar arreglo ordenado
+        return result;
     }
 }
