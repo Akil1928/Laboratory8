@@ -1,137 +1,207 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package domain;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- *
- * @author Profesor Gilberth Chaves A <gchavesav@ucr.ac.cr>
- */
 public class Complex {
-    private int counterRadix[];
+    private List<Integer> lowValues;
+    private List<Integer> highValues;
+    private List<Integer> pivotValues;
+    private List<int[]> shellSortSubArrays;
+    private int[] counterArray;
+    private int recursiveCallCount;
+    private int numberOfComparisons;
 
-    public void quickSort(int arr[], int low, int high){
-        int i=low;
-        int j=high;
-        int pivot=arr[(low+high)/2];
-        do{
-            while(arr[i]<pivot) i++;
-            while(arr[j]>pivot) j--;
-            if(i<=j){
-                int aux=arr[i];
-                arr[i]=arr[j];
-                arr[j]=aux;
-                i++;j--;
-            }//if
-        }while(i<=j);//do
-
-        if(low<j) quickSort(arr,low,j);
-        if(i<high) quickSort(arr,i,high);
+    public Complex() {
+        lowValues = new ArrayList<>();
+        highValues = new ArrayList<>();
+        pivotValues = new ArrayList<>();
+        shellSortSubArrays = new ArrayList<>();
+        recursiveCallCount = 0;
+        numberOfComparisons = 0;
     }
 
-    public void radixSort(int a[], int n){ 
-        // Find the maximum number to know number of digits 
-        int m = util.Utility.maxArray(a); //va de 0 hasta el elemento maximo
-  
-        // Do counting sort for every digit. Note that instead 
-        // of passing digit number, exp is passed. exp is 10^i 
-        // where i is current digit number 
-        for (int exp = 1; m/exp > 0; exp *= 10) 
-            countSort(a, n, exp); 
+    public void resetCounters() {
+        recursiveCallCount = 0;
+        numberOfComparisons = 0;
     }
 
-    // A function to do counting sort of a[] according to
-    // the digit represented by exp. 
-    private void countSort(int a[], int n, int exp){ 
-        int output[] = new int[n]; // output array 
-        int i; 
-        int count[] = new int[10];
+    public int getRecursiveCallCount() {
+        return recursiveCallCount;
+    }
 
-        // Store count of occurrences in count[] 
-        for (i = 0; i < n; i++) {
-            count[(a[i] / exp) % 10]++;
+    public int getNumberOfComparisons() {
+        return numberOfComparisons;
+    }
+
+    // QuickSort
+    public void quickSort(int[] arr, int low, int high) {
+        if (low < high) {
+            recursiveCallCount++;
+
+            lowValues.add(low);
+            highValues.add(high);
+
+            int pi = partition(arr, low, high);
+            pivotValues.add(arr[pi]);
+
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
         }
-  
-        // Change count[i] so that count[i] now contains 
-        // actual position of this digit in output[] 
-        for (i = 1; i < 10; i++) {
-            count[i] += count[i - 1];
-        }
-  
-        // Build the output array 
-        for (i = n - 1; i >= 0; i--) {
-            output[count[ (a[i]/exp)%10 ] - 1] = a[i]; 
-            count[ (a[i]/exp)%10 ]--;
-        }
-  
-        // Copy the output array to a[], so that a[] now 
-        // contains sorted numbers according to curent digit 
-        for (i = 0; i < n; i++) 
-            a[i] = output[i];
+    }
 
-        counterRadix=count;
-    }
-    
-    public void mergeSort(int a[], int tmp[], int low, int high){
-        if(low<high){
-            int center = (low+high)/2;
-            mergeSort(a,tmp,low,center );
-            mergeSort(a,tmp,center+1,high);
-            merge(a,tmp,low,center+1,high);
-        }//if
-    }
-        
-    private void merge(int a[], int tmp[], int lowIndex, int highIndex, int endIndex){ 
-	int leftEnd = highIndex - 1; 
-	int tmpPos = lowIndex; 
-	int numElements = endIndex - lowIndex + 1; 
-	while( lowIndex <= leftEnd && highIndex <= endIndex ) 
-            if(a[lowIndex]<=a[highIndex]) {
-                tmp[tmpPos++] = a[lowIndex++];
+    private int partition(int[] arr, int low, int high) {
+        int pivot = arr[high];
+        int i = (low - 1);
+
+        for (int j = low; j < high; j++) {
+            numberOfComparisons++;
+            if (arr[j] < pivot) {
+                i++;
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
             }
-            else{
-                tmp[tmpPos++] = a[highIndex++];
+        }
+
+        int temp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = temp;
+
+        return i + 1;
+    }
+
+    // RadixSort
+    public void radixSort(int[] arr, int n) {
+        int max = getMax(arr, n);
+
+        for (int exp = 1; max / exp > 0; exp *= 10) {
+            countSort(arr, n, exp);
+        }
+    }
+
+    private int getMax(int[] arr, int n) {
+        int max = arr[0];
+        for (int i = 1; i < n; i++) {
+            numberOfComparisons++;
+            if (arr[i] > max) {
+                max = arr[i];
             }
-	while(lowIndex<= leftEnd) {
-        tmp[tmpPos++] = a[lowIndex++];
-    }
-	while( highIndex <= endIndex ) {
-        tmp[tmpPos++] = a[highIndex++];
-    }
-	for( int i=0;i<numElements;i++,endIndex--) 
-            a[endIndex] = tmp[endIndex]; 
+        }
+        return max;
     }
 
-    public void shellSort(int a[]) { 
-        int n = a.length; 
-        // Start with a big gap, then reduce the gap 
-        for (int gap = n/2; gap > 0; gap /= 2){
-                // Do a gapped insertion sort for this gap size.
-            // The first gap elements a[0..gap-1] are already 
-            // in gapped order keep adding one more element 
-            // until the entire array is gap sorted
-            int x=1;
-            for (int i = gap; i < n; i += 1){
-                // add a[i] to the elements that have been gap
-                // sorted save a[i] in temp and make a hole at 
-                // position i 
-                int temp = a[i];
+    private void countSort(int[] arr, int n, int exp) {
+        int[] output = new int[n];
+        counterArray = new int[10];
 
-                // shift earlier gap-sorted elements up until 
-                // the correct location for a[i] is found 
+        for (int i = 0; i < n; i++) {
+            counterArray[(arr[i] / exp) % 10]++;
+        }
+
+        for (int i = 1; i < 10; i++) {
+            counterArray[i] += counterArray[i - 1];
+        }
+
+        for (int i = n - 1; i >= 0; i--) {
+            output[counterArray[(arr[i] / exp) % 10] - 1] = arr[i];
+            counterArray[(arr[i] / exp) % 10]--;
+        }
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = output[i];
+        }
+    }
+
+    // MergeSort
+    public void mergeSort(int[] arr, int[] tmp, int left, int right) {
+        if (left < right) {
+            recursiveCallCount++;
+
+            lowValues.add(left);
+            highValues.add(right);
+
+            int center = (left + right) / 2;
+            mergeSort(arr, tmp, left, center);
+            mergeSort(arr, tmp, center + 1, right);
+            merge(arr, tmp, left, center + 1, right);
+        }
+    }
+
+    private void merge(int[] arr, int[] tmp, int left, int right, int rightEnd) {
+        int leftEnd = right - 1;
+        int k = left;
+        int num = rightEnd - left + 1;
+
+        while (left <= leftEnd && right <= rightEnd) {
+            numberOfComparisons++;
+            if (arr[left] <= arr[right]) {
+                tmp[k++] = arr[left++];
+            } else {
+                tmp[k++] = arr[right++];
+            }
+        }
+
+        while (left <= leftEnd) {
+            tmp[k++] = arr[left++];
+        }
+
+        while (right <= rightEnd) {
+            tmp[k++] = arr[right++];
+        }
+
+        for (int i = 0; i < num; i++, rightEnd--) {
+            arr[rightEnd] = tmp[rightEnd];
+        }
+    }
+
+    // ShellSort
+    public void shellSort(int[] arr) {
+        int n = arr.length;
+        recursiveCallCount = 0;
+        shellSortSubArrays.clear();
+
+        for (int gap = n/2; gap > 0; gap /= 2) {
+            recursiveCallCount++;
+
+            int[] subArray = new int[12];
+            int subArrayIndex = 0;
+
+            for (int i = gap; i < n && subArrayIndex < 12; i++) {
+                subArray[subArrayIndex++] = arr[i];
+            }
+            shellSortSubArrays.add(subArray.clone());
+
+            for (int i = gap; i < n; i++) {
+                int temp = arr[i];
                 int j;
-                for (j = i; j >= gap && a[j - gap] > temp; j -= gap) 
-                    a[j] = a[j - gap]; 
-  
-                // put temp (the original a[i]) in its correct 
-                // location 
-                a[j] = temp; 
-            } 
-        } 
+                for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
+                    arr[j] = arr[j - gap];
+                    numberOfComparisons++;
+                }
+                arr[j] = temp;
+            }
+        }
     }
 
+
+    public int[] getLowValues() {
+        return lowValues.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    public int[] getHighValues() {
+        return highValues.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    public int[] getPivotValues() {
+        return pivotValues.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    public int[] getCounterArray() {
+        return counterArray;
+    }
+
+    public List<int[]> getShellSortSubArrays() {
+        return shellSortSubArrays;
+    }
 }
