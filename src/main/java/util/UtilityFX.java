@@ -5,7 +5,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
-import ucr.lab.HelloApplication;
+import ucr.lab.laboratory8.HelloApplication;
 
 import java.io.IOException;
 
