@@ -75,6 +75,7 @@ return newArray;
             newArray [i]= a[i];
 
         }
+
         return newArray;
 
     }
