@@ -5,4 +5,6 @@ module ucr.lab.laboratory8 {
 
     opens ucr.lab.laboratory8 to javafx.fxml;
     exports ucr.lab.laboratory8;
+    exports controller;
+    opens controller to javafx.fxml;
 }
