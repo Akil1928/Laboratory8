@@ -14,10 +14,10 @@ public class HelloController {
     @FXML
     private void load(String form) {
         try {
-            // Intenta cargar el FXML con una ruta completa
+
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/"+form));
 
-            // Asegúrate de manejar cualquier error de carga
+
             if (fxmlLoader.getLocation() == null) {
                 System.err.println("No se puede encontrar el archivo FXML: " + form);
                 return;
@@ -83,7 +83,7 @@ public class HelloController {
 
     @FXML
     void selectionSortOnAction(ActionEvent event) {
-        load("selectioSorting.fxml");
+        load("selectionSorting.fxml");
     }
 
     @FXML

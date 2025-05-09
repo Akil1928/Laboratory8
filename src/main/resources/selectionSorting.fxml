@@ -2,6 +2,8 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -48,7 +50,11 @@
                 <TextField fx:id="TextFieldHghBound" layoutX="430.0" layoutY="152.0" prefHeight="30.0" prefWidth="93.0" />
                 <Pane layoutX="34.0" layoutY="195.0" prefHeight="412.0" prefWidth="597.0" style="-fx-background-color: #f2f6fa;">
                     <children>
-                        <TableView fx:id="noSortedArrayableView" layoutX="-1.0" layoutY="31.0" onSort="#noSortArrayOnSort" prefHeight="105.0" prefWidth="597.0" />
+                        <ScrollPane layoutX="0.0" layoutY="30.0" prefHeight="110.0" prefWidth="597.0" hbarPolicy="AS_NEEDED" vbarPolicy="NEVER">
+                            <content>
+                                <TableView fx:id="noSortedArrayableView" prefHeight="100.0" prefWidth="580.0" />
+                            </content>
+                        </ScrollPane>
                         <Label layoutX="232.0" layoutY="-5.0" prefHeight="39.0" prefWidth="371.0" text="No sorted array">
                             <font>
                                 <Font size="18.0" />
@@ -69,21 +75,25 @@
                                 <Font size="18.0" />
                             </font>
                         </Label>
-                        <TableView fx:id="SortedArrayableView1" layoutX="-1.0" layoutY="307.0" onSort="#SortArrayOnSort" prefHeight="105.0" prefWidth="597.0" />
+                        <ScrollPane layoutX="0.0" layoutY="305.0" prefHeight="110.0" prefWidth="597.0" hbarPolicy="AS_NEEDED" vbarPolicy="NEVER">
+                            <content>
+                                <TableView fx:id="SortedArrayableView1" prefHeight="100.0" prefWidth="580.0" />
+                            </content>
+                        </ScrollPane>
                         <TextField fx:id="TextFieldMinValue" editable="false" layoutX="139.0" layoutY="150.0" prefHeight="30.0" prefWidth="339.0" />
                         <TextField fx:id="TextFieldMinIndex" editable="false" layoutX="139.0" layoutY="200.0" prefHeight="30.0" prefWidth="339.0" />
-                  <TextField fx:id="TextFieldtotalIterations" editable="false" layoutX="139.0" layoutY="240.0" prefHeight="30.0" prefWidth="93.0" />
-                  <Label layoutX="258.0" layoutY="236.0" prefHeight="39.0" prefWidth="140.0" text="Total changes:">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="TextFieldtotalChanges" editable="false" layoutX="375.0" layoutY="241.0" prefHeight="30.0" prefWidth="93.0" />
-                  <Label layoutX="225.0" layoutY="275.0" prefHeight="39.0" prefWidth="371.0" text="Sorted Array">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
+                        <TextField fx:id="TextFieldtotalIterations" editable="false" layoutX="139.0" layoutY="240.0" prefHeight="30.0" prefWidth="93.0" />
+                        <Label layoutX="258.0" layoutY="236.0" prefHeight="39.0" prefWidth="140.0" text="Total changes:">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="TextFieldtotalChanges" editable="false" layoutX="375.0" layoutY="241.0" prefHeight="30.0" prefWidth="93.0" />
+                        <Label layoutX="225.0" layoutY="275.0" prefHeight="39.0" prefWidth="371.0" text="Sorted Array">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
                     </children>
                 </Pane>
                 <Button fx:id="RamdomizeButton" layoutX="277.0" layoutY="632.0" mnemonicParsing="false" onAction="#randomizeOnAction" text="Ramdomize" />
