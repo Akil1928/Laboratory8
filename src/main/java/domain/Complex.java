@@ -11,6 +11,8 @@ public class Complex {
     private int[] counterArray;
     private int recursiveCallCount;
     private int numberOfComparisons;
+    private int[] tempArray;
+
 
     public Complex() {
         lowValues = new ArrayList<>();
@@ -114,7 +116,11 @@ public class Complex {
     }
 
     // MergeSort
-    public void mergeSort(int[] arr, int[] tmp, int left, int right) {
+    public void mergeSort(int[] arr, int left, int right) {
+        this.tempArray = new int[arr.length];  // Inicializar el array temporal
+        mergeSortHelper(arr, left, right);
+    }
+    private void mergeSortHelper(int[] arr, int left, int right) {
         if (left < right) {
             recursiveCallCount++;
 
@@ -122,13 +128,14 @@ public class Complex {
             highValues.add(right);
 
             int center = (left + right) / 2;
-            mergeSort(arr, tmp, left, center);
-            mergeSort(arr, tmp, center + 1, right);
-            merge(arr, tmp, left, center + 1, right);
+            mergeSortHelper(arr, left, center);
+            mergeSortHelper(arr, center + 1, right);
+            merge(arr, left, center + 1, right);
         }
     }
 
-    private void merge(int[] arr, int[] tmp, int left, int right, int rightEnd) {
+
+    private void merge(int[] arr, int left, int right, int rightEnd) {
         int leftEnd = right - 1;
         int k = left;
         int num = rightEnd - left + 1;
@@ -136,24 +143,30 @@ public class Complex {
         while (left <= leftEnd && right <= rightEnd) {
             numberOfComparisons++;
             if (arr[left] <= arr[right]) {
-                tmp[k++] = arr[left++];
+                tempArray[k++] = arr[left++];
             } else {
-                tmp[k++] = arr[right++];
+                tempArray[k++] = arr[right++];
             }
         }
 
         while (left <= leftEnd) {
-            tmp[k++] = arr[left++];
+            tempArray[k++] = arr[left++];
         }
 
         while (right <= rightEnd) {
-            tmp[k++] = arr[right++];
+            tempArray[k++] = arr[right++];
         }
 
+        // Copiar al array original y también mantener el estado del tempArray
         for (int i = 0; i < num; i++, rightEnd--) {
-            arr[rightEnd] = tmp[rightEnd];
+            arr[rightEnd] = tempArray[rightEnd];
         }
     }
+
+    public int[] getTempArray() {
+        return tempArray;
+    }
+
 
     // ShellSort
     public void shellSort(int[] arr) {

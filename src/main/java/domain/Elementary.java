@@ -13,14 +13,10 @@ public class Elementary {
         return totalChanges;
     }
 
-    public static String getCounterArray() {
-        if (counterArray == null) return "";
-        StringBuilder sb = new StringBuilder();
-        for (int value : counterArray) {
-            sb.append(value).append(", ");
-        }
-        return sb.toString().trim();
+    public static int[] getCounterArray() {
+        return counterArray;
     }
+
 
     public static void bubbleSort(int a[]) {
         if (a == null || a.length == 0) return;
@@ -114,4 +110,5 @@ public class Elementary {
             }
         }
     }
+
 }
