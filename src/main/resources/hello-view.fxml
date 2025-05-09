@@ -67,7 +67,7 @@
    <center>
       <AnchorPane fx:id="contentPane" prefHeight="769.0" prefWidth="816.0" style="-fx-background-color: #000000;" BorderPane.alignment="CENTER">
 
-         <Text fx:id="txtMessage" fill="#24b938" layoutX="4.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Laboratory No. 3" textAlignment="CENTER" wrappingWidth="781.94921875">
+         <Text fx:id="txtMessage" fill="#24b938" layoutX="4.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Laboratory No. 8" textAlignment="CENTER" wrappingWidth="781.94921875">
             <font>
                <Font name="Arial" size="40.0" />
             </font>

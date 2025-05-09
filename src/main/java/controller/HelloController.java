@@ -46,7 +46,7 @@ public class HelloController {
 
     @FXML
     void Home(ActionEvent event) {
-        txtMessage.setText("Laboratory No. 3");
+        txtMessage.setText("Laboratory No. 8");
         contentPane.getChildren().clear();
         contentPane.getChildren().add(txtMessage);
     }
